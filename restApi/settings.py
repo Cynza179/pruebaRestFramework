@@ -31,10 +31,11 @@ DEBUG = os.environ.get("DEBUG","False").lower() == "true"
 ##DEBUG = 'RENDER' not in os.environ
 #True
 
-ALLOWED_HOSTS = []
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOST").split("")
+##ALLOWED_HOSTS = []
+##RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+##if RENDER_EXTERNAL_HOSTNAME:
+    ##ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -100,8 +101,9 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse("postgres://postgreprueba_vd5u_user:G0G6LjSi8gQ7r2FXNyveXJq4fHiAfJVW@dpg-cip2sc6nqql4qa1cuif0-a.oregon-postgres.render.com/postgreprueba_vd5u")
-
+database_url= os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
+#"postgres://postgreprueba_vd5u_user:G0G6LjSi8gQ7r2FXNyveXJq4fHiAfJVW@dpg-cip2sc6nqql4qa1cuif0-a.oregon-postgres.render.com/postgreprueba_vd5u"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -27,7 +27,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 #'django-insecure-@7q*gji!_842tm#l8i^^ujw#@=x=rbvhxc0-hdt&!qid@^a2oy'#
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = os.environ.get("DEBUG","False").lower() == "true"
+##DEBUG = 'RENDER' not in os.environ
 #True
 
 ALLOWED_HOSTS = []
@@ -85,13 +86,21 @@ WSGI_APPLICATION = 'restApi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+##DATABASES = {
+    ##'default': dj_database_url.config(
+        ##default='sqlite:///db.sqlite3',
+        ##conn_max_age=600
+    ##)
+##}
+
 DATABASES = {
-    'default': dj_database_url.config(
-        # Feel free to alter this value to suit your needs.
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
+    'default': {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3"
+    }
 }
+
+DATABASES["default"] = dj_database_url.parse("postgres://postgreprueba_vd5u_user:G0G6LjSi8gQ7r2FXNyveXJq4fHiAfJVW@dpg-cip2sc6nqql4qa1cuif0-a.oregon-postgres.render.com/postgreprueba_vd5u")
 
 
 # Password validation

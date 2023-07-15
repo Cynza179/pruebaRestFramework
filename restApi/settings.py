@@ -27,11 +27,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 #'django-insecure-@7q*gji!_842tm#l8i^^ujw#@=x=rbvhxc0-hdt&!qid@^a2oy'#
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG","False").lower() == "true"
-##DEBUG = 'RENDER' not in os.environ
+DEBUG = 'RENDER' not in os.environ
 #True
 
-####ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split()
 ALLOWED_HOSTS = []
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
@@ -87,23 +85,12 @@ WSGI_APPLICATION = 'restApi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-##DATABASES = {
-    ##'default': dj_database_url.config(
-        ##default='sqlite:///db.sqlite3',
-        ##conn_max_age=600
-    ##)
-##}
-
 DATABASES = {
-    'default': {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3"
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
+    )
 }
-
-database_url= os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse(database_url)
-#"postgres://postgreprueba_vd5u_user:G0G6LjSi8gQ7r2FXNyveXJq4fHiAfJVW@dpg-cip2sc6nqql4qa1cuif0-a.oregon-postgres.render.com/postgreprueba_vd5u"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -142,14 +129,14 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Following settings only make sense on production and may break development environments.
-#if not DEBUG:
+if not DEBUG:
     # Tell Django to copy statics to the `staticfiles` directory
     # in your application directory on Render.
-    #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
     # Turn on WhiteNoise storage backend that takes care of compressing static files
     # and creating unique names for each version so they can safely be cached forever.
-    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
